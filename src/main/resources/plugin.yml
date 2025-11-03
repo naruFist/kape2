@@ -1,4 +1,0 @@
-name: kape2
-version: '1.0-SNAPSHOT'
-main: io.github.asr.kape2.Kape
-api-version: '1.21'
