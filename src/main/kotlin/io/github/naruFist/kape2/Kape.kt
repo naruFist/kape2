@@ -22,7 +22,7 @@ class Kape {
 
         @KapeDSL
         @JvmStatic
-        fun <E: Event>listener(block: (event: E) -> Unit) {
+        inline fun <reified E: Event>listener(noinline block: (event: E) -> Unit) {
             val listenerBlock = object : Listener {
                 @EventHandler
                 fun a(event: E) {
@@ -30,7 +30,7 @@ class Kape {
                 }
             }
 
-            plugin.server.pluginManager.registerEvents(listenerBlock, plugin)
+            plugin().server.pluginManager.registerEvents(listenerBlock, plugin())
         }
     }
 }
