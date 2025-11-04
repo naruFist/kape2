@@ -1,5 +1,6 @@
 package io.github.naruFist.kape2
 
+import io.github.naruFist.kape2.util.KapePluginNotDefinedException
 import org.bukkit.event.Event
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
@@ -10,15 +11,15 @@ annotation class KapeDSL
 
 private var _plugin: JavaPlugin? = null
 
-var plugin: JavaPlugin
-    get() = _plugin ?: throw IllegalStateException("Plugin not initialized yet!")
-    set(value) {
-        _plugin = value
-    }
-
-
 class Kape {
     companion object {
+        @JvmStatic
+        var plugin: JavaPlugin
+            get() = _plugin ?: throw KapePluginNotDefinedException()
+            set(value) {
+                _plugin = value
+            }
+
 
         @KapeDSL
         @JvmStatic
