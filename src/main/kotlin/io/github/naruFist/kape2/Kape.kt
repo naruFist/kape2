@@ -7,7 +7,7 @@ import org.bukkit.plugin.java.JavaPlugin
 
 annotation class KapeDSL
 
-internal lateinit var plugin: JavaPlugin
+lateinit var plugin: JavaPlugin
 
 
 class Kape {
@@ -16,9 +16,6 @@ class Kape {
         fun setPlugin(javaPlugin: JavaPlugin) {
             plugin = javaPlugin
         }
-
-        @JvmStatic
-        fun plugin() = plugin
 
         @KapeDSL
         @JvmStatic
@@ -30,7 +27,7 @@ class Kape {
                 }
             }
 
-            plugin().server.pluginManager.registerEvents(listenerBlock, plugin())
+            plugin.server.pluginManager.registerEvents(listenerBlock, plugin)
         }
     }
 }
