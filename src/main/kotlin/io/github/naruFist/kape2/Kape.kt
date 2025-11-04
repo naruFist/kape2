@@ -23,7 +23,7 @@ class Kape {
         @KapeDSL
         @JvmStatic
         inline fun <reified E : Event> listener(noinline block: (E) -> Unit) {
-            val dummyListener = object : Listener
+            val dummyListener = object : Listener {}
 
             val executor = EventExecutor { _, event ->
                 if (event is E) block(event)
@@ -37,7 +37,7 @@ class Kape {
         @KapeDSL
         @JvmStatic
         inline fun <reified E : Event> listener(priority: EventPriority, noinline block: (E) -> Unit) {
-            val dummyListener = object : Listener
+            val dummyListener = object : Listener {}
 
             val executor = EventExecutor { _, event ->
                 if (event is E) block(event)
