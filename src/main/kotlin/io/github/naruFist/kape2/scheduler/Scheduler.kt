@@ -1,6 +1,6 @@
 package io.github.naruFist.kape2.scheduler
 
-import io.github.naruFist.kape2.plugin
+import io.github.naruFist.kape2.Kape.Companion.plugin
 
 class Scheduler {
     companion object {
