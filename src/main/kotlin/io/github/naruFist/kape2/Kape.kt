@@ -1,6 +1,6 @@
 package io.github.naruFist.kape2
 
-import io.github.naruFist.kape2.util.KapePluginNotDefinedException
+import io.github.naruFist.kape2.util.KapePluginUndefinedException
 import org.bukkit.event.Event
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
@@ -15,7 +15,7 @@ class Kape {
     companion object {
         @JvmStatic
         var plugin: JavaPlugin
-            get() = _plugin ?: throw KapePluginNotDefinedException()
+            get() = _plugin ?: throw KapePluginUndefinedException()
             set(value) {
                 _plugin = value
             }
