@@ -29,20 +29,20 @@ class Example: JavaPlugin() {
         // Easy Listener Registration
         join()
         interact()
-        ...
+        ~
     }
 }
 
 // Listener Registration Functions
 fun join() { // if player join, send 'Hi' (aqua color)
     Kape.listener<PlayerJoinEvent> { event ->
-        event.player.sendMessage(text("Hi"), Color.AQUA)
+        event.player.sendMessage(text("Hi", Color.AQUA))
     }
 }
 
 fun interact() {
     Kape.listener<PlayerInteractEvent> { event ->
-        ...
+        ~
     }
 }
 ```
