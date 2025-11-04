@@ -7,7 +7,7 @@ import org.bukkit.plugin.java.JavaPlugin
 
 annotation class KapeDSL
 
-lateinit var plugin: JavaPlugin
+internal lateinit var plugin: JavaPlugin
 
 
 class Kape {
@@ -17,9 +17,12 @@ class Kape {
             plugin = javaPlugin
         }
 
+        @JvmStatic
+        fun plugin() = plugin
+
         @KapeDSL
         @JvmStatic
-        inline fun <reified E: Event>listener(noinline block: (event: E) -> Unit) {
+        fun <E: Event>listener(clazz: Class<E>, block: (event: E) -> Unit) {
             val listenerBlock = object : Listener {
                 @EventHandler
                 fun a(event: E) {
@@ -28,6 +31,12 @@ class Kape {
             }
 
             plugin.server.pluginManager.registerEvents(listenerBlock, plugin)
+        }
+
+        @KapeDSL
+        @JvmStatic
+        inline fun <reified E : Event> listener(noinline block: (E) -> Unit) {
+            listener(E::class.java, block)
         }
     }
 }
