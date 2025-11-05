@@ -1,6 +1,8 @@
 package io.github.naruFist.kape2
 
+import io.github.naruFist.kape2.component.text
 import io.github.naruFist.kape2.util.KapePluginUndefinedException
+import net.kyori.adventure.text.Component
 import org.bukkit.event.Event
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
@@ -48,5 +50,11 @@ class Kape {
                 E::class.java, dummyListener, priority, executor, plugin, false
             )
         }
+
+        @JvmStatic
+        fun log(text: Component) = plugin.server.sendMessage(text)
+
+        @JvmStatic
+        fun log(string: String) = log(text = text(string))
     }
 }
