@@ -12,7 +12,7 @@ class Scheduler(private val taskId: Int) {
             plugin.server.scheduler.runTaskLater(plugin, Runnable(block), tick)
 
         @JvmStatic
-        fun loop(tag: String, tick: Long, n: Int = 0, block: Scheduler.() -> Unit) {
+        fun loop(tick: Long, n: Int = 0, block: Scheduler.() -> Unit) {
             var tempId = -1
 
             val id = plugin.server.scheduler.scheduleSyncRepeatingTask(plugin, Runnable {
