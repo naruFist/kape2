@@ -52,6 +52,32 @@ class Kape {
         }
 
         @JvmStatic
+        fun <E: Event> listener(clazz: Class<E>, block: (E) -> Unit) {
+            val dummyListener = object : Listener {}
+
+            val executor = EventExecutor { _, event ->
+                if (clazz.isInstance(event)) block(clazz.cast(event))
+            }
+
+            plugin.server.pluginManager.registerEvent(
+                clazz, dummyListener, EventPriority.NORMAL, executor, plugin, false
+            )
+        }
+
+        @JvmStatic
+        fun <E: Event> listener(clazz: Class<E>, priority: EventPriority, block: (E) -> Unit) {
+            val dummyListener = object : Listener {}
+
+            val executor = EventExecutor { _, event ->
+                if (clazz.isInstance(event)) block(clazz.cast(event))
+            }
+
+            plugin.server.pluginManager.registerEvent(
+                clazz, dummyListener, priority, executor, plugin, false
+            )
+        }
+
+        @JvmStatic
         fun log(text: Component) = plugin.server.sendMessage(text)
 
         @JvmStatic
