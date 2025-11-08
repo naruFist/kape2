@@ -16,7 +16,7 @@ private var _plugin: JavaPlugin? = null
 class Kape {
     companion object {
         @JvmStatic
-        var plugin: JavaPlugin
+        var plugin: JavaPlugin?
             get() = _plugin ?: throw KapePluginUndefinedException()
             set(value) {
                 _plugin = value
