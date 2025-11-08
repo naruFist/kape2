@@ -28,7 +28,7 @@ class Kape {
 
         @KapeDSL
         @JvmStatic
-        inline fun <reified E : Event> listener(noinline block: (E) -> Unit) {
+        inline fun <reified E : Event> listener(noinline block: (E) -> Unit): Listener {
             val dummyListener = object : Listener {}
 
             val executor = EventExecutor { _, event ->
@@ -38,11 +38,13 @@ class Kape {
             plugin.server.pluginManager.registerEvent(
                 E::class.java, dummyListener, EventPriority.NORMAL, executor, plugin, false
             )
+
+            return dummyListener
         }
 
         @KapeDSL
         @JvmStatic
-        inline fun <reified E : Event> listener(priority: EventPriority, noinline block: (E) -> Unit) {
+        inline fun <reified E : Event> listener(priority: EventPriority, noinline block: (E) -> Unit): Listener {
             val dummyListener = object : Listener {}
 
             val executor = EventExecutor { _, event ->
@@ -52,10 +54,12 @@ class Kape {
             plugin.server.pluginManager.registerEvent(
                 E::class.java, dummyListener, priority, executor, plugin, false
             )
+
+            return dummyListener
         }
 
         @JvmStatic
-        fun <E: Event> listener(clazz: Class<E>, block: (E) -> Unit) {
+        fun <E: Event> listener(clazz: Class<E>, block: (E) -> Unit): Listener {
             val dummyListener = object : Listener {}
 
             val executor = EventExecutor { _, event ->
@@ -65,10 +69,12 @@ class Kape {
             plugin.server.pluginManager.registerEvent(
                 clazz, dummyListener, EventPriority.NORMAL, executor, plugin, false
             )
+
+            return dummyListener
         }
 
         @JvmStatic
-        fun <E: Event> listener(clazz: Class<E>, priority: EventPriority, block: (E) -> Unit) {
+        fun <E: Event> listener(clazz: Class<E>, priority: EventPriority, block: (E) -> Unit): Listener {
             val dummyListener = object : Listener {}
 
             val executor = EventExecutor { _, event ->
@@ -78,6 +84,8 @@ class Kape {
             plugin.server.pluginManager.registerEvent(
                 clazz, dummyListener, priority, executor, plugin, false
             )
+
+            return dummyListener
         }
 
         @JvmStatic
