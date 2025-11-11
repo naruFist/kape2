@@ -11,6 +11,8 @@ import org.bukkit.plugin.java.JavaPlugin
 
 annotation class KapeDSL
 
+annotation class KapeListener
+
 private var _plugin: JavaPlugin? = null
 
 class Kape {
