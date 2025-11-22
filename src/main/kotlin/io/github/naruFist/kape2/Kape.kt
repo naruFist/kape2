@@ -9,6 +9,7 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.event.Event
 import org.bukkit.event.EventPriority
+import org.bukkit.event.HandlerList
 import org.bukkit.event.Listener
 import org.bukkit.plugin.EventExecutor
 import org.bukkit.plugin.java.JavaPlugin
@@ -31,10 +32,20 @@ class Kape {
             }
 
         @JvmStatic
-        fun disable() { _plugin = null }
+        fun disable() {
+            listeners.forEach {
+                HandlerList.unregisterAll(it)
+            }
+
+            _plugin = null
+        }
 
 
         // Listener Part
+        @JvmStatic
+        val listeners: MutableList<Listener> = mutableListOf()
+
+
         @KapeDSL
         @JvmStatic
         inline fun <reified E : Event> listener(priority: EventPriority = EventPriority.NORMAL, noinline block: (E) -> Unit): Listener {
@@ -48,6 +59,7 @@ class Kape {
                 E::class.java, dummyListener, priority, executor, plugin, false
             )
 
+            listeners += dummyListener
             return dummyListener
         }
 
@@ -63,6 +75,7 @@ class Kape {
                 clazz, dummyListener, priority, executor, plugin, false
             )
 
+            listeners += dummyListener
             return dummyListener
         }
 

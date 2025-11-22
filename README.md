@@ -31,12 +31,16 @@ class Example: JavaPlugin() {
         interact()
         ~
     }
+    
+    override fun onDisable() {
+        Kape.disable()
+    }
 }
 
 // Listener Registration Functions
 fun join() { // if player join, send 'Hi' (aqua color)
     Kape.listener<PlayerJoinEvent> { event ->
-        event.player.sendMessage(text("Hi", Color.AQUA))
+        event.player.sendMessage(text("Hi", NamedTextColor.AQUA))
     }
 }
 
