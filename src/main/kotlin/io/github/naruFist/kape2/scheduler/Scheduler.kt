@@ -1,6 +1,8 @@
 package io.github.naruFist.kape2.scheduler
 
 import io.github.naruFist.kape2.Kape.Companion.plugin
+import org.bukkit.scheduler.BukkitRunnable
+import org.bukkit.scheduler.BukkitTask
 
 
 class Scheduler(private val taskId: Int) {
@@ -13,16 +15,17 @@ class Scheduler(private val taskId: Int) {
 
         @JvmStatic
         fun loop(tick: Long, n: Int = 0, block: Scheduler.() -> Unit) {
-            var tempId = -1
+            var i = 0
 
-            val id = plugin.server.scheduler.scheduleSyncRepeatingTask(plugin, Runnable {
-                val scheduler = Scheduler(tempId)
-                scheduler.block()
-            }, 0L, tick)
+            val runnable = object : BukkitRunnable() {
+                override fun run() {
+                    if (n != 0 && n < ++i) cancel()
 
-            tempId = id
+                    block(Scheduler(this.taskId))
+                }
+            }
 
-            if (n != 0) later(tick * n) { plugin.server.scheduler.cancelTask(id) }
+            runnable.runTaskTimer(plugin, 0L, tick)
         }
     }
 }
