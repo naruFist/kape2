@@ -4,6 +4,9 @@ import io.github.naruFist.kape2.command.CommandNode
 import io.github.naruFist.kape2.component.text
 import io.github.naruFist.kape2.inventory.InventoryManager
 import io.github.naruFist.kape2.util.KapePluginUndefinedException
+import io.github.naruFist.kape2.util.toPlayer
+import io.papermc.paper.command.brigadier.Commands
+import io.papermc.paper.command.brigadier.argument.ArgumentTypes
 import net.kyori.adventure.text.Component
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
@@ -14,7 +17,8 @@ import org.bukkit.event.Listener
 import org.bukkit.plugin.EventExecutor
 import org.bukkit.plugin.java.JavaPlugin
 
-annotation class KapeDSL
+@DslMarker
+private annotation class KapeDSL
 
 annotation class KapeListener
 
@@ -63,6 +67,7 @@ class Kape {
             return dummyListener
         }
 
+        @KapeDSL
         @JvmStatic
         fun <E: Event> listener(clazz: Class<E>, priority: EventPriority = EventPriority.NORMAL, block: (E) -> Unit): Listener {
             val dummyListener = object : Listener {}
@@ -99,17 +104,36 @@ class Kape {
 
 
         // Command Manager Part
+        @KapeDSL
         @JvmStatic
         fun command(string: String, cmdManager: CommandNode.() -> Unit) {
+
+            val rootCmd = Commands.literal(string)
+
             val cmd = object : Command(string) {
                 override fun execute(p0: CommandSender, p1: String, p2: Array<out String>): Boolean {
-                    CommandNode(p0, p2, 0).cmdManager()
+                    CommandNode(rootCmd, p0, p2, 0).cmdManager()
 
                     return false
                 }
             }
 
             cmd.register(plugin.server.commandMap)
+        }
+    }
+}
+
+fun a() {
+    Kape.command("do") {
+        literal("send") {
+            arg("player" to ArgumentTypes.player()) {
+                execute {
+                    val player = lastParameter.toPlayer()
+                    arg("message" to ArgumentTypes.component()) {
+                        player.sendMessage(lastParameter)
+                    }
+                }
+            }
         }
     }
 }

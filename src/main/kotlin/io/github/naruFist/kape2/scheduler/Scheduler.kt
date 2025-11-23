@@ -2,7 +2,6 @@ package io.github.naruFist.kape2.scheduler
 
 import io.github.naruFist.kape2.Kape.Companion.plugin
 import org.bukkit.scheduler.BukkitRunnable
-import org.bukkit.scheduler.BukkitTask
 
 
 class Scheduler(private val taskId: Int) {
