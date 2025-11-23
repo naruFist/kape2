@@ -7,7 +7,7 @@ import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
 
 
-fun Player.showInv(line: Int, title: Component) = openInventory(Kape.inventory(line, title))
+fun Player.showInv(line: Int, title: Component) = openInventory(Kape.inventory(title, line))
 
 class InventoryManager(private val inventory: Inventory) {
     fun set(slot: Int, item: ItemStack) = inventory.setItem(slot, item)
