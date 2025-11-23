@@ -96,12 +96,12 @@ class Kape {
 
         // Inventory Manager Part
         @JvmStatic
-        fun inventory(line: Int, title: Component, block: InventoryManager.() -> Unit = {}) =
+        fun inventory(title: Component, line: Int, block: InventoryManager.() -> Unit = {}) =
             InventoryManager(plugin.server.createInventory(null, 9 * line, title)).apply { block(this) }.build()
 
         @JvmStatic
-        fun inv(line: Int, title: Component, block: InventoryManager.() -> Unit = {}) =
-            inventory(line, title, block)
+        fun inv(title: Component, line: Int,  block: InventoryManager.() -> Unit = {}) =
+            inventory(title, line, block)
 
 
         // Command Manager Part
