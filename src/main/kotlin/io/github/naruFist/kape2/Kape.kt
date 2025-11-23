@@ -7,6 +7,7 @@ import io.github.naruFist.kape2.util.KapePluginUndefinedException
 import io.github.naruFist.kape2.util.toPlayer
 import io.papermc.paper.command.brigadier.Commands
 import io.papermc.paper.command.brigadier.argument.ArgumentTypes
+import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents
 import net.kyori.adventure.text.Component
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
@@ -110,30 +111,10 @@ class Kape {
 
             val rootCmd = Commands.literal(string)
 
-            val cmd = object : Command(string) {
-                override fun execute(p0: CommandSender, p1: String, p2: Array<out String>): Boolean {
-                    CommandNode(rootCmd, p0, p2, 0).cmdManager()
-
-                    return false
-                }
+            plugin.lifecycleManager.registerEventHandler(LifecycleEvents.COMMANDS) { commands ->
+                commands.registrar().register(rootCmd.build())
             }
-
-            cmd.register(plugin.server.commandMap)
-        }
-    }
-}
-
-fun a() {
-    Kape.command("do") {
-        literal("send") {
-            arg("player" to ArgumentTypes.player()) {
-                execute {
-                    val player = lastParameter.toPlayer()
-                    arg("message" to ArgumentTypes.component()) {
-                        player.sendMessage(lastParameter)
-                    }
-                }
-            }
+            // 등록 될까요?
         }
     }
 }
